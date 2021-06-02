@@ -11,6 +11,8 @@ import { ThreadsService } from './../thread/threads.service';
   styleUrls: ['./chat-threads.component.css']
 })
 export class ChatThreadsComponent {
+  threads: Observable<any>;
+  
   constructor(public threadsService: ThreadsService) {
   }
 }
