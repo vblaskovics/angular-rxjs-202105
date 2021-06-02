@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { Thread } from '../thread/thread.model';
 import { User } from '../user/user.model';
 import { Message } from './message.model';
-import { filter, scan, publishReplay, refCount } from 'rxjs/operators'
+import { filter, scan, publishReplay, refCount, map } from 'rxjs/operators'
 
 const initialMessages: Message[] = [];
 
@@ -27,7 +27,18 @@ export class MessagesService {
       refCount()
     )
 
-    
+    this.create.pipe(
+      map(
+        (message: Message): IMessageOperation => {
+          return (messages: Message[]) => {
+            return messages.concat(message);
+          }
+        }
+      )
+    ).subscribe(this.updates);
+
+    this.newMessages.subscribe(this.create);
+
   }
 
   addMessage(message: Message): void {
