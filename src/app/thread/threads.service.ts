@@ -45,6 +45,8 @@ export class ThreadsService {
       })
     );
 
+    this.currentThread.subscribe(this.messagesService.markThreadAsRead);
+
     this.currentThreadMessages = this.currentThread.pipe(
       combineLatest(
         messagesService.messages,
